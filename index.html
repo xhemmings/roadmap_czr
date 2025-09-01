@@ -9,7 +9,7 @@
 
   <style>
     :root {
-      /* Base theme (from your draft) */
+      /* Theme */
       --bg-a: #1749b3;
       --bg-b: #2f6fe0;
       --accent: #4cc9ff;
@@ -18,13 +18,29 @@
       --muted: #cfe3ff;
       --ring: rgba(255,255,255,0.60);
 
-      /* Solid shells so content never blends into the gradient */
+      /* Shells */
       --panel-bg: #101826;
       --panel-border: #2a3548;
       --card-bg: #101826;
       --card-border: #2a3548;
+
+      /* Palette sizing vars (responsive below) */
+      --panel-pad: 14px;
+      --panel-title: 18px;
+      --grad-h: 64px;
+
+      --label-fz: 12px;
+      --chip-h: 44px;
+      --value-fz: 12px;
+      --indicator-fz: 6px;
+
+      --var-grid-cols: 1fr 1.4fr; /* label | chip */
+      --cards-min: 250px;         /* card min width */
+      --swatch: 18px;             /* popover swatch size */
     }
 
+    /* ===== Base page ===== */
+    *{box-sizing:border-box}
     body {
       margin: 0;
       background: linear-gradient(180deg, var(--bg-a), var(--bg-b));
@@ -33,73 +49,61 @@
       -webkit-font-smoothing: antialiased;
       padding: 30px;
     }
-
     .topbar { text-align: right; margin-bottom: 10px; font-size: 14px; }
     .title { text-align: center; font-size: 32px; font-weight: bold; margin-bottom: 30px; }
 
-    /* ===== Roadmap (kept from base) ===== */
+    /* ===== Roadmap (unchanged from your file) ===== */
     .roadwrap { display: grid; place-items: center; margin-bottom: 20px; }
     .road { position: relative; width: min(100%, 900px); }
-
     .steps {
       position: absolute; inset: 0;
       display: grid; grid-template-columns: repeat(5, 1fr);
       align-items: center;
     }
-    .step {
-      position: relative;
-      display: flex; flex-direction: column; align-items: center;
-      gap: 10px;
-      transform: translate(6px, 3px);
-    }
-    .icon {
-      font-family: "Material Symbols Outlined";
-      font-size: 28px; line-height: 1;
-      color: var(--muted);
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(calc(-50% + 12px), -70%);
-    }
-    .label {
-      margin-top: 120px; transform: translateX(12px);
-      font-weight: 600; color: var(--muted); font-size: 14px; text-align: center;
-    }
+    .step { position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px; transform: translate(6px, 3px); }
+    .icon { font-family: "Material Symbols Outlined"; font-size: 28px; line-height: 1; color: var(--muted); position: absolute; top: 50%; left: 50%; transform: translate(calc(-50% + 12px), -70%); }
+    .label { margin-top: 120px; transform: translateX(12px); font-weight: 600; color: var(--muted); font-size: 14px; text-align: center; }
     .step.completed .icon, .step.completed .label { color: var(--accent); }
 
     .demo { margin-top: 18px; background: rgba(255,255,255,.12); border-radius: 12px; padding: 14px; }
     .controls { display: flex; gap: 10px; justify-content: center; }
-    .btn {
-      border: 1px solid rgba(255,255,255,.45);
-      border-radius: 8px; padding: 8px 16px;
-      background: rgba(255,255,255,.18); color: #fff; font-weight: 700; cursor: pointer;
-    }
+    .btn { border: 1px solid rgba(255,255,255,.45); border-radius: 8px; padding: 8px 16px; background: rgba(255,255,255,.18); color: #fff; font-weight: 700; cursor: pointer; }
     .btn:hover { background: rgba(255,255,255,.3); }
     .hint { text-align: center; font-size: 13px; color: var(--muted); margin-top: 8px; }
 
-    /* ===== Theme tools (added) ===== */
+    /* ===== Palette / Gallery (responsive) ===== */
     .layout{
-      display:grid;grid-template-columns:340px 1fr;gap:14px;
-      width:min(100%,1100px);margin:14px auto 0;
+      display:grid;
+      grid-template-columns:340px 1fr;     /* desktop: left pane + gallery */
+      gap:14px;
+      width:min(100%,1100px);
+      margin:14px auto 0;
     }
     .panel{
       background:var(--panel-bg);
       border:1px solid var(--panel-border);
-      border-radius:12px; padding:14px;
+      border-radius:12px;
+      padding:var(--panel-pad);
     }
-    .panel h3{margin:0 0 10px;font-size:18px;font-weight:800;color:#fff}
+    .panel h3{margin:0 0 10px;font-size:var(--panel-title);font-weight:800;color:#fff}
 
-    .grad-preview{height:64px;border-radius:10px;border:1px solid rgba(255,255,255,.25);
-                  background:linear-gradient(90deg,var(--bg-a),var(--bg-b));margin-bottom:10px}
+    .grad-preview{
+      height:var(--grad-h);
+      border-radius:10px;border:1px solid rgba(255,255,255,.25);
+      background:linear-gradient(90deg,var(--bg-a),var(--bg-b));margin-bottom:10px
+    }
+
     .varlist{display:grid;gap:8px}
-    .varrow{display:grid;grid-template-columns:1fr 1.4fr;gap:8px;align-items:center}
-    .vlabel{font-size:12px;font-weight:900;letter-spacing:.2px;color:#e6efff;opacity:.9;background:#0f1522;
-            border:1px solid rgba(255,255,255,.15);padding:6px 8px;border-radius:8px;width:max-content}
+    .varrow{display:grid;grid-template-columns:var(--var-grid-cols);gap:8px;align-items:center}
+    .vlabel{font-size:var(--label-fz);font-weight:900;letter-spacing:.2px;color:#e6efff;opacity:.9;background:#0f1522;
+      border:1px solid rgba(255,255,255,.15);padding:6px 8px;border-radius:8px;width:max-content}
 
     .chip{
-      position:relative;height:44px;border-radius:10px;border:1px solid rgba(255,255,255,.25);
+      position:relative;height:var(--chip-h);border-radius:10px;border:1px solid rgba(255,255,255,.25);
       background:var(--c); overflow:hidden; --t:#fff;
     }
-    .indicator{position:absolute;top:6px;right:6px;font-size:6px;line-height:1;color:#9aa4b2;text-transform:uppercase}
-    .value{position:absolute;bottom:6px;right:6px;font-size:12px;font-weight:800;color:var(--t)}
+    .indicator{position:absolute;top:6px;right:6px;font-size:var(--indicator-fz);line-height:1;color:#9aa4b2;text-transform:uppercase}
+    .value{position:absolute;bottom:6px;right:6px;font-size:var(--value-fz);font-weight:800;color:var(--t)}
     .edit{position:absolute;top:6px;left:6px;font-size:10px;color:var(--t);background:none;border:none;padding:0;cursor:pointer}
     .edit:hover{text-decoration:underline}
 
@@ -107,16 +111,17 @@
     .apply-btn{ border:1px solid rgba(255,255,255,.45); background:rgba(255,255,255,.12); color:#fff; font-weight:700; border-radius:10px; padding:8px 12px; cursor:pointer }
     .apply-btn:hover{ background:rgba(255,255,255,.2) }
 
-    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(var(--cards-min),1fr));gap:12px}
     .card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;padding:12px;display:grid;gap:10px}
     .card h4{margin:0;font-size:13px;font-weight:900;letter-spacing:.2px;color:#fff}
     .card .gprev{height:54px;border-radius:10px;border:1px solid rgba(255,255,255,.25);background:linear-gradient(90deg,var(--a),var(--b))}
     .gridchips{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
     .chipx{height:30px;border-radius:8px;border:1px solid rgba(255,255,255,.25);background:var(--c)}
-    .actions{display:flex;gap:8px}
+    .actions{display:flex;gap:8px;flex-wrap:wrap}
     .btn-sm{padding:6px 10px;font-size:12px;border-radius:8px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);color:#fff;cursor:pointer}
     .btn-sm:hover{background:rgba(255,255,255,.28)}
 
+    /* Popover (bottom sheet on phones) */
     .popover{position:fixed;inset:auto auto 0 0;transform:translate(-9999px,-9999px);z-index:60;
              background:#0b0f18;border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px;min-width:220px}
     .popover.show{transform:none}
@@ -126,20 +131,61 @@
     .pop-row{display:grid;grid-template-columns:38px 1fr;gap:6px;margin-bottom:8px}
     .pop-row input[type="color"]{width:38px;height:34px;border:1px solid rgba(255,255,255,.25);border-radius:8px;background:transparent;padding:0;cursor:pointer}
     .pop-row input[type="text"]{width:100%;min-width:0;padding:7px 8px;border-radius:8px;border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.15);color:#fff;font-size:12px;outline:none}
-    .swatches{display:grid;grid-template-columns:repeat(8, 18px);gap:6px}
-    .sw{width:18px;height:18px;border-radius:4px;border:1px solid rgba(255,255,255,.25);cursor:pointer}
+    .swatches{display:grid;grid-template-columns:repeat(8, var(--swatch));gap:6px}
+    .sw{width:var(--swatch);height:var(--swatch);border-radius:4px;border:1px solid rgba(255,255,255,.25);cursor:pointer}
 
     .toast{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);background:rgba(0,0,0,.8);color:#fff;padding:9px 12px;border-radius:8px;font-size:12px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:1000}
     .toast.show{opacity:1}
 
-    @media (max-width:980px){.layout{grid-template-columns:1fr}}
+    /* ===== Responsive tweaks for the palette area ===== */
+    @media (max-width: 1100px){
+      .layout{grid-template-columns:320px 1fr}
+    }
+    @media (max-width: 900px){
+      :root{
+        --panel-pad: 12px; --panel-title: 16px; --grad-h: 56px;
+        --label-fz: 12px; --chip-h: 42px; --value-fz: 12px; --indicator-fz: 6px;
+        --cards-min: 220px;
+      }
+      .gridchips{grid-template-columns:repeat(6,1fr)}
+    }
+    @media (max-width: 760px){
+      .layout{grid-template-columns:1fr} /* stack */
+      :root{
+        --panel-pad: 12px; --panel-title: 16px; --grad-h: 52px;
+        --label-fz: 12px; --chip-h: 40px; --value-fz: 12px; --indicator-fz: 6px;
+        --var-grid-cols: 1fr;           /* label above chip */
+        --cards-min: 200px;
+      }
+      .vlabel{width:auto;justify-self:start}
+      .apply-row{justify-content:center}
+      .actions{justify-content:center}
+      .cards{gap:10px}
+    }
+    @media (max-width: 520px){
+      :root{
+        --panel-pad: 10px; --panel-title: 15px; --grad-h: 46px;
+        --label-fz: 11px; --chip-h: 38px; --value-fz: 11px; --indicator-fz: 6px;
+        --cards-min: 170px; --swatch: 16px;
+      }
+      .gridchips{grid-template-columns:repeat(6,1fr)}
+      /* Popover as bottom sheet */
+      .popover.show{left:0 !important; right:0; bottom:0; top:auto !important; width:100vw; border-radius:12px 12px 0 0;}
+    }
+    @media (max-width: 380px){
+      :root{
+        --panel-pad: 8px; --panel-title: 14px; --grad-h: 42px;
+        --label-fz: 10px; --chip-h: 36px; --value-fz: 10.5px; --indicator-fz: 6px;
+        --cards-min: 150px; --swatch: 14px;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="topbar">Welcome, Jane Doe</div>
   <div class="title">Loan Application</div>
 
-  <!-- ===== Roadmap (base, unchanged visually) ===== -->
+  <!-- ===== Roadmap (as in your current file) ===== -->
   <section class="roadwrap">
     <div class="road">
       <svg viewBox="0 0 1000 160" aria-hidden="true">
@@ -185,7 +231,7 @@
           <circle cx="920" cy="80" r="42" style="stroke: var(--ring)" stroke-width="8"/>
         </g>
 
-        <!-- Arcs (hidden with dasharray when off to avoid the dot) -->
+        <!-- Arcs -->
         <g id="arcs" fill="none" stroke-linecap="round" style="stroke: var(--accent); stroke-width: 14;">
           <path id="a1t" d="M 78 80 A 42 42 0 0 0 162 80" pathLength="100" stroke-dasharray="0 100" stroke-dashoffset="0"/>
           <path id="a1b" d="M 78 80 A 42 42 0 0 1 162 80" pathLength="100" stroke-dasharray="0 100" stroke-dashoffset="0"/>
@@ -219,9 +265,8 @@
     <div class="hint">Base controls only. Applying a theme resets the animation to stage 1.</div>
   </div>
 
-  <!-- ===== Theme tools (below the fold) ===== -->
+  <!-- ===== Palette + Gallery (responsive now) ===== -->
   <section class="layout">
-    <!-- LEFT: Current theme -->
     <aside class="panel">
       <h3 id="leftTitle">Default · Blue on Blue</h3>
       <div class="grad-preview" id="gradPreview"></div>
@@ -229,14 +274,13 @@
       <div class="apply-row"><button id="applyLeft" class="apply-btn">Apply Theme Changes</button></div>
     </aside>
 
-    <!-- RIGHT: Preset gallery -->
     <div class="panel">
       <h3>Theme Gallery</h3>
       <div class="cards" id="themeGallery"></div>
     </div>
   </section>
 
-  <!-- Palette popover -->
+  <!-- Popover -->
   <div id="popover" class="popover" role="dialog" aria-modal="true">
     <div class="pop-head">
       <div class="pop-title" id="popTitle">Edit</div>
@@ -255,9 +299,8 @@
   (() => {
     function ready(fn){ if (document.readyState !== 'loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
 
-    /* ================= Roadmap (base behavior, dotless arcs) ================= */
+    /* ===== Roadmap animation (as-is) ===== */
     let setStagePublic;
-
     ready(() => {
       const startX = 90, ringR = 42;
       const centers = [120, 320, 520, 720, 920];
@@ -273,14 +316,14 @@
 
       const arcPair = n => [document.getElementById(`a${n}t`), document.getElementById(`a${n}b`)];
       const setArrOff = (el, arr, off) => { if(!el) return; el.setAttribute('stroke-dasharray', arr); el.setAttribute('stroke-dashoffset', off); };
-      const hideArc   = n => arcPair(n).forEach(el => setArrOff(el, '0 100', '0'));   // fully hidden, no round-cap dot
+      const hideArc   = n => arcPair(n).forEach(el => setArrOff(el, '0 100', '0'));
       const showFull  = n => arcPair(n).forEach(el => setArrOff(el, '100', '0'));
       const animateArc= n => arcPair(n).forEach(el => {
         if(!el) return;
-        setArrOff(el, '100', '100');      // start hidden but with full length
+        setArrOff(el, '100', '100');
         el.style.transition='none'; void el.getBBox();
         el.style.transition='stroke-dashoffset 1s linear';
-        setArrOff(el, '100', '0');        // animate in
+        setArrOff(el, '100', '0');
         setTimeout(()=>{ if(el) el.style.transition='none'; },1100);
       });
 
@@ -329,14 +372,11 @@
         setStage(t);
       });
 
-      // Init with all arcs hidden then animate stage 1 for crisp start
       for(let i=1;i<=MAX;i++) hideArc(i);
       setStage(1);
     });
 
-    /* ================= Theme System (added) ================= */
-
-    // 9 hard-coded themes (Pink/Fuchsia has white circle fill)
+    /* ===== Theme system (kept) ===== */
     const THEMES = {
       "Default · Blue on Blue": {
         "--bg-a":"#1749b3","--bg-b":"#2f6fe0","--accent":"#4cc9ff",
@@ -387,11 +427,7 @@
       Object.entries(vars).forEach(([k,v])=>{ if(VARS.includes(k)) document.documentElement.style.setProperty(k,v); });
       currentThemeName=name; $("#leftTitle").textContent=name;
       updateCurrentPanel();
-      if(reset && typeof setStagePublic==='function'){
-        // hard reset animation to stage 1
-        setStagePublic(1,false);
-        setTimeout(()=>setStagePublic(1,true),10);
-      }
+      if(reset && typeof setStagePublic==='function'){ setStagePublic(1,false); setTimeout(()=>setStagePublic(1,true),10); }
     }
 
     function hexFromColor(str){
@@ -403,7 +439,7 @@
     }
     function rgbaFromHexA(hex,a=1){ hex=hex.replace('#',''); if(hex.length===3) hex=hex.split('').map(c=>c+c).join(''); const r=parseInt(hex.slice(0,2),16), g=parseInt(hex.slice(2,4),16), b=parseInt(hex.slice(4,6),16); return `rgba(${r},${g},${b},${a})`; }
 
-    // Black/white contrast pick
+    /* contrast helpers */
     function parseColor(str){
       str=(str||'').trim();
       if(/^#/.test(str)){ const h=str.slice(1); const n=(h.length===3)? h.split('').map(c=>c+c).join('') : h; return {r:parseInt(n.slice(0,2),16), g:parseInt(n.slice(2,4),16), b:parseInt(n.slice(4,6),16)}; }
@@ -424,10 +460,10 @@
       const m2=norm.match(/rgba?\(([^)]+)\)/i); return m2 ? {kind:'RGBA', text:m2[1].replace(/\s+/g,'')} : {kind:'HEX', text:raw};
     }
 
-    // ===== Left pane =====
+    /* Left pane build/update */
     function buildCurrentPanel(){
       const list=document.getElementById('currentList'); list.innerHTML='';
-      VARS.forEach(v=>{
+      ["--bg-a","--bg-b","--accent","--circle-fill","--text","--muted","--ring"].forEach(v=>{
         const row=document.createElement('div'); row.className='varrow';
         const lab=document.createElement('div'); lab.className='vlabel'; lab.textContent=v;
         const chip=document.createElement('div'); chip.className='chip'; chip.style.setProperty('--c', `var(${v})`);
@@ -454,7 +490,7 @@
       });
     }
 
-    // ===== Gallery =====
+    /* Gallery */
     function buildThemeGallery(){
       const host=document.getElementById('themeGallery'); host.innerHTML='';
       Object.entries(THEMES).forEach(([name, vars])=>{
@@ -474,7 +510,7 @@
       });
     }
 
-    // ===== Popover editor =====
+    /* Popover editor */
     const editorEl=document.getElementById('popover');
     const popColor=document.getElementById('popColor');
     const popText=document.getElementById('popText');
@@ -483,11 +519,7 @@
     const popClose=document.getElementById('popClose');
     let editingVar=null;
 
-    const PALETTE_BANK=[
-      "#FFFFFF","#F5F7FB","#FFF1F2","#F5D0FE","#E2E8F0","#CBD5E1","#94A3B8","#64748B",
-      "#7DD3FC","#38BDF8","#22D3EE","#10B981","#34D399","#FBBF24","#F59E0B",
-      "#FF7ABF","#D946EF","#A21CAF","#6B7280","#111827","#0F172A"
-    ];
+    const PALETTE_BANK=["#FFFFFF","#F5F7FB","#FFF1F2","#F5D0FE","#E2E8F0","#CBD5E1","#94A3B8","#64748B","#7DD3FC","#38BDF8","#22D3EE","#10B981","#34D399","#FBBF24","#F59E0B","#FF7ABF","#D946EF","#A21CAF","#6B7280","#111827","#0F172A"];
 
     function openEditorFor(varName, anchorEl, ev){
       editingVar=varName; popTitle.textContent=`Edit ${varName}`;
@@ -515,14 +547,13 @@
     popColor.addEventListener('input', ()=>{ if(!editingVar) return; const hex=popColor.value; popText.value=editingVar==='--ring' ? rgbaFromHexA(hex,0.6) : hex; applyVar(editingVar, popText.value); });
     popText.addEventListener('input', ()=>{ if(!editingVar) return; applyVar(editingVar, popText.value.trim()); });
 
-    // Apply left changes to current theme and refresh gallery
     document.getElementById('applyLeft').addEventListener('click', ()=>{
       THEMES[currentThemeName] = {...readCurrentTheme()};
       buildThemeGallery();
       showToast('Theme updated');
     });
 
-    // ===== Boot =====
+    /* Boot */
     ready(()=>{
       buildCurrentPanel();
       buildThemeGallery();
